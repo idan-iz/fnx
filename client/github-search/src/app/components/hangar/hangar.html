@@ -1,0 +1,14 @@
+<div class="hangar">
+    <h2 class="title-section">Search in GitHub repositories</h2>
+    <app-search-bar></app-search-bar>
+    <div class="results">
+        @if(searchResult$()?.total_count){
+        <p class="results-count">{{searchResult$()?.total_count}} results</p>
+        @for (item of searchResult$()?.items; track item.id){
+        <app-result-card [card]="item"></app-result-card>
+        }
+        } @else {
+        <p class="no-results">no results</p>
+        }
+    </div>
+</div>

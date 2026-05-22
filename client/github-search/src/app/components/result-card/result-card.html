@@ -1,0 +1,34 @@
+<div class="result-card" [class.favorite-card]="isFavorite()">
+  <div class="card-header">
+    <div class="avatar-container">
+      <img [src]="card()?.owner?.avatar_url" class="owner-avatar" alt="Owner avatar" />
+    </div>
+    <div class="title-container">
+      <a [href]="card()?.html_url" target="_blank" class="repo-name" title="View on GitHub">
+        {{ card()?.name }}
+      </a>
+      <span class="full-name">{{ card()?.full_name }}</span>
+    </div>
+    <button class="bookmark-btn" (click)="onFavoriteClick()" [class.active]="isFavorite()" aria-label="Toggle favorite">
+      <mat-icon class="bookmark-icon">{{ isFavorite() ? 'bookmark' : 'bookmark_border' }}</mat-icon>
+    </button>
+  </div>
+
+  <div class="card-body">
+    <p class="description" [title]="card()?.description || 'No description provided.'">
+      {{ card()?.description || 'No description provided.' }}
+    </p>
+  </div>
+
+  <div class="card-footer">
+    <div class="stat-item stars" title="Stargazers">
+      <mat-icon class="stat-icon">star</mat-icon>
+      <span class="stat-count">{{ card()?.stargazers_count | number }}</span>
+    </div>
+    <div class="stat-item forks" title="Forks">
+      <mat-icon class="stat-icon font-rotate">call_split</mat-icon>
+      <span class="stat-count">{{ card()?.forks_count | number }}</span>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,12 @@
+<div class="search-bar">
+    <form [formGroup]="searchForm" (ngSubmit)="onClickSearch()" class="search-form">
+        <mat-form-field class="search-input-container">
+            <mat-label class="search-label">Search for repositories</mat-label>
+            <input class="search-input" matInput formControlName="query"
+                title="search for: angular, react, dotnet, ..." (keydown.enter)="onClickSearch()" />
+        </mat-form-field>
+        <button class="search-btn" type="submit" mat-icon-button color="primary" [disabled]="searchForm.invalid">
+            <mat-icon>search</mat-icon>
+        </button>
+    </form>
+</div>

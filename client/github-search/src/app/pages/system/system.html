@@ -1,1 +1,8 @@
-<p>system works!</p>
+<div class="system">
+    <app-system-tabs class="system-tabs" (selectedTabNameEmit)="onTabChange($event)"></app-system-tabs>
+    @if(selectedTab === 'hangar') {
+    <app-hangar class="hangar"></app-hangar>
+    } @else if (selectedTab === 'favorites') {
+    <app-favorites class="favorites"></app-favorites>
+    }
+</div>
