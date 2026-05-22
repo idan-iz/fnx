@@ -1,0 +1,18 @@
+.home {
+    display: block;
+
+    .main-container {
+        max-width: 500px;
+        margin: 80px auto;
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 16px;
+        }
+
+        .toggle-reg-login-btn {
+            background-color: #182d47;
+        }
+    }
+}
