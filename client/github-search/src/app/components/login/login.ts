@@ -2,14 +2,14 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ILogin } from './login.interface';
 import { Auth } from '../../services/auth';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
-  imports: [MatFormField, MatInput, MatButton, ReactiveFormsModule, MatLabel],
+  imports: [MatFormField, MatInput, MatButton, ReactiveFormsModule, MatLabel, MatError],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })

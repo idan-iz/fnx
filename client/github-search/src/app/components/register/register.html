@@ -1,1 +1,52 @@
-<div class="register"></div>
+<div class="register">
+    <div class="header">
+        <h2 class="title">Register</h2>
+        <p class="subtitle">Create an account</p>
+    </div>
+    <form (ngSubmit)="onRegister()" [formGroup]="registerForm" class="form-register">
+        <mat-form-field class="block-input">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" minlength="3" maxlength="20" required />
+            @if (registerForm.get('username')?.hasError('required')) {
+            <mat-error>Username is required</mat-error>
+            }
+            @if (registerForm.get('username')?.hasError('minlength')) {
+            <mat-error>Username must be at least 3 characters long</mat-error>
+            }
+            @if (registerForm.get('username')?.hasError('maxlength')) {
+            <mat-error>Username must be at most 20 characters long</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field class="block-input">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" type="password" minlength="3" maxlength="20" required />
+            @if (registerForm.get('password')?.hasError('required')) {
+            <mat-error>Password is required</mat-error>
+            }
+            @if (registerForm.get('password')?.hasError('minlength')) {
+            <mat-error>Password must be at least 3 characters long</mat-error>
+            }
+            @if (registerForm.get('password')?.hasError('maxlength')) {
+            <mat-error>Password must be at most 20 characters long</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field class="block-input">
+            <mat-label>Repeat Password</mat-label>
+            <input matInput formControlName="repeatPassword" type="password" minlength="3" maxlength="20" required />
+            @if (registerForm.get('repeatPassword')?.hasError('required')) {
+            <mat-error>Repeat Password is required</mat-error>
+            }
+            @if (registerForm.get('repeatPassword')?.hasError('minlength')) {
+            <mat-error>Repeat Password must be at least 3 characters long</mat-error>
+            }
+            @if (registerForm.get('repeatPassword')?.hasError('maxlength')) {
+            <mat-error>Repeat Password must be at most 20 characters long</mat-error>
+            }
+            @if (registerForm.get('repeatPassword')?.hasError('mismatch')) {
+            <mat-error>Passwords do not match</mat-error>
+            }
+        </mat-form-field>
+        <button mat-flat-button class="send-btn" color="primary" type="submit"
+            [disabled]="registerForm.invalid">Register</button>
+    </form>
+</div>

@@ -22,3 +22,7 @@ button {
     box-sizing: border-box;
     padding-bottom: 10px;
 }
+
+mat-error {
+    --mat-sys-error: #aa3b3b;
+}
