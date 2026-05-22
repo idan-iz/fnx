@@ -1,3 +1,7 @@
 <div class="header">
-    <h1 class="title">Github <b class="search-keyword">Search</b> Repositories</h1>
+    <h1 class="title on-desktop">Github <b class="search-keyword">Search</b> Repositories</h1>
+    <h1 class="title on-mobile">G.<b class="search-keyword">S</b>.R</h1>
+    @if (authService.isLoggedIn()) {
+    <button class="logout-btn" (click)="logout()">Logout</button>
+    }
 </div>

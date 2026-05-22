@@ -18,7 +18,7 @@ namespace GithubSearch.Api.Services
                 return "{\"total_count\":0,\"incomplete_results\":false,\"items\":[]}";
             }
 
-            var requestUrl = $"https://api.github.com/search/repositories?q={Uri.EscapeDataString(query)}";
+            var requestUrl = $"https://api.github.com/search/repositories?q={Uri.EscapeDataString(query)}&per_page=100";
 
             var request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
             

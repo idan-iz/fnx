@@ -3,10 +3,11 @@ import { SearchBar } from "../search-bar/search-bar";
 import { ResultCard } from "../result-card/result-card";
 import { User } from '../../services/user';
 import { IResultCard } from '../result-card/result-card.interface';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-hangar',
-  imports: [SearchBar, ResultCard],
+  imports: [SearchBar, ResultCard, CommonModule],
   templateUrl: './hangar.html',
   styleUrl: './hangar.css',
 })

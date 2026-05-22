@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { IHangarResult } from '../components/hangar/hangar.interface';
 import { IResultCard } from '../components/result-card/result-card.interface';
 import { environment } from '../environment/environment';
+import { General } from './general';
 
 @Injectable({
   providedIn: 'root',
@@ -11,11 +12,12 @@ export class User {
   private http = inject(HttpClient, { optional: true });
   private readonly BASE_URL = environment.apiUrl;
 
+  private generalService = inject(General);
+
   private searchResult = signal<IHangarResult | null>(null);
   searchResult$ = this.searchResult.asReadonly();
 
-  private searchLoading = signal<boolean>(false);
-  searchLoading$ = this.searchLoading.asReadonly();
+  searchLoading$ = this.generalService.loading$;
 
   private bookmarks = signal<IResultCard[]>([]);
   bookmarks$ = this.bookmarks.asReadonly();
@@ -25,20 +27,21 @@ export class User {
   }
 
   searchRepositories(query: string) {
-    if (query.trim().length === 0 || !this.http || this.searchLoading()) return;
+    if (query.trim().length === 0 || !this.http || this.generalService.loading$()) return;
 
-    this.searchLoading.set(true);
+    this.generalService.setLoading(true);
 
     this.http.post<IHangarResult>(`${this.BASE_URL}/github/search`, { query })
       .subscribe({
         next: (res) => {
           this.searchResult.set(res);
-          this.searchLoading.set(false);
+          this.generalService.setLoading(false);
         },
         error: (err) => {
           console.error('Search failed', err);
+          this.generalService.showError(err?.error?.message || 'Search failed. Please try again.');
           this.searchResult.set({ total_count: 0, incomplete_results: false, items: [] });
-          this.searchLoading.set(false);
+          this.generalService.setLoading(false);
         }
       });
   }
@@ -53,6 +56,7 @@ export class User {
         },
         error: (err) => {
           console.error('Failed to load bookmarks', err);
+          this.generalService.showError(err?.error?.message || 'Failed to load bookmarks.');
         }
       });
   }
@@ -67,6 +71,7 @@ export class User {
         },
         error: (err) => {
           console.error('Failed to add bookmark', err);
+          this.generalService.showError(err?.error?.message || 'Failed to add bookmark.');
         }
       });
   }
@@ -81,6 +86,7 @@ export class User {
         },
         error: (err) => {
           console.error('Failed to remove bookmark', err);
+          this.generalService.showError(err?.error?.message || 'Failed to remove bookmark.');
         }
       });
   }

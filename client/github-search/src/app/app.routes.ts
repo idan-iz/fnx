@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { isLoginGuard } from './guards/is-login-guard';
 
 export const routes: Routes = [
     {
@@ -7,7 +8,8 @@ export const routes: Routes = [
     },
     {
         path: 'system',
-        loadComponent: () => import('./pages/system/system').then((p) => p.System)
+        loadComponent: () => import('./pages/system/system').then((p) => p.System),
+        canActivate: [isLoginGuard]
     },
     {
         path: '**',

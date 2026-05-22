@@ -1,9 +1,10 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ILogin } from '../components/login/login.interface';
 import { IRegister } from '../components/register/register.interface';
 import { environment } from '../environment/environment';
+import { General } from './general';
 
 @Injectable({
   providedIn: 'root',
@@ -16,8 +17,8 @@ export class Auth {
   private router = inject(Router, { optional: true });
   private readonly BASE_URL = environment.apiUrl;
 
-  private authLoading = signal<boolean>(false);
-  authLoading$ = this.authLoading.asReadonly();
+  private generalService = inject(General);
+  authLoading$ = this.generalService.loading$;
 
   constructor() {
     if (typeof window !== 'undefined' && window.localStorage) {
@@ -31,35 +32,35 @@ export class Auth {
       return;
     }
 
-    if (this.authLoading()) {
+    if (this.generalService.loading$()) {
       return;
     }
 
-    this.authLoading.set(true);
+    this.generalService.setLoading(true);
 
     this.http.post<{ token: string; username: string }>(`${this.BASE_URL}/auth/login`, payload)
       .subscribe({
         next: (response) => {
           this.setToken(response.token);
-          this.authLoading.set(false);
+          this.generalService.setLoading(false);
           if (this.router) {
             this.router.navigate(['/system']);
           }
         },
         error: (err) => {
           console.error('Login failed', err);
-          alert(err?.error?.message || 'Login failed. Please check your credentials.');
-          this.authLoading.set(false);
+          this.generalService.showError(err?.error?.message || 'Login failed. Please check your credentials.');
+          this.generalService.setLoading(false);
         }
       });
   }
 
   register(payload: IRegister) {
-    if (!this.http || this.authLoading()) {
+    if (!this.http || this.generalService.loading$()) {
       return;
     }
 
-    this.authLoading.set(true);
+    this.generalService.setLoading(true);
 
     const registerPayload = {
       username: payload.username,
@@ -70,13 +71,13 @@ export class Auth {
       .subscribe({
         next: () => {
           // Reset loading state so the next login() invocation is allowed
-          this.authLoading.set(false);
+          this.generalService.setLoading(false);
           this.login({ username: payload.username, password: payload.password });
         },
         error: (err) => {
           console.error('Registration failed', err);
-          alert(err?.error?.message || 'Registration failed.');
-          this.authLoading.set(false);
+          this.generalService.showError(err?.error?.message || 'Registration failed.');
+          this.generalService.setLoading(false);
         }
       });
   }

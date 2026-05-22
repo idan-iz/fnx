@@ -26,3 +26,15 @@ button {
 mat-error {
     --mat-sys-error: #aa3b3b;
 }
+
+@media (max-width: 768px) {
+    .on-desktop {
+        display: none !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .on-mobile {
+        display: none !important;
+    }
+}
