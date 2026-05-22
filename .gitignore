@@ -1,1 +1,25 @@
 INFO.md
+
+# .NET Build outputs
+**/[Bb]in/
+**/[Oo]bj/
+
+# SQLite Databases (zero-config local db)
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Node & Angular (Client)
+**/node_modules/
+**/.angular/
+**/dist/
+
+# IDE & Editor files
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates

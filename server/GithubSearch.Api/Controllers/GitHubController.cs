@@ -1,4 +1,5 @@
 using GithubSearch.Api.Services.Interfaces;
+using GithubSearch.Api.Dtos.GitHub;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,17 +17,17 @@ namespace GithubSearch.Api.Controllers
             _gitHubService = gitHubService;
         }
 
-        [HttpGet("search")]
-        public async Task<IActionResult> Search([FromQuery] string q)
+        [HttpPost("search")]
+        public async Task<IActionResult> Search([FromBody] SearchRequestDto dto)
         {
-            if (string.IsNullOrWhiteSpace(q))
+            if (dto == null || string.IsNullOrWhiteSpace(dto.Query))
             {
-                return BadRequest(new { Message = "Query parameter 'q' is required." });
+                return BadRequest(new { Message = "Query parameter 'query' is required." });
             }
 
             try
             {
-                var jsonResult = await _gitHubService.SearchRepositoriesAsync(q);
+                var jsonResult = await _gitHubService.SearchRepositoriesAsync(dto.Query);
                 // Return as raw application/json response directly to the client
                 return Content(jsonResult, "application/json");
             }

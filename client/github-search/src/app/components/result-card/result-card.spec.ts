@@ -2,10 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ResultCard } from './result-card';
 import { IResultCard } from './result-card.interface';
 import { By } from '@angular/platform-browser';
+import { User } from '../../services/user';
 
 describe('ResultCard', () => {
   let component: ResultCard;
   let fixture: ComponentFixture<ResultCard>;
+  let mockUserService: jasmine.SpyObj<User>;
 
   const mockCard: IResultCard = {
     id: 12345,
@@ -21,8 +23,14 @@ describe('ResultCard', () => {
   };
 
   beforeEach(async () => {
+    mockUserService = jasmine.createSpyObj('User', ['isBookmarked']);
+    mockUserService.isBookmarked.and.returnValue(false);
+
     await TestBed.configureTestingModule({
-      imports: [ResultCard]
+      imports: [ResultCard],
+      providers: [
+        { provide: User, useValue: mockUserService }
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ResultCard);
@@ -78,8 +86,8 @@ describe('ResultCard', () => {
   });
 
   it('should apply active classes when isFavorite is true', () => {
+    mockUserService.isBookmarked.and.returnValue(true);
     fixture.componentRef.setInput('card', mockCard);
-    fixture.componentRef.setInput('isFavorite', true);
     fixture.detectChanges();
 
     const cardContainer = fixture.debugElement.query(By.css('.result-card'));
@@ -92,8 +100,8 @@ describe('ResultCard', () => {
   });
 
   it('should use non-active bookmark icon when isFavorite is false', () => {
+    mockUserService.isBookmarked.and.returnValue(false);
     fixture.componentRef.setInput('card', mockCard);
-    fixture.componentRef.setInput('isFavorite', false);
     fixture.detectChanges();
 
     const bookmarkIcon = fixture.debugElement.query(By.css('.bookmark-icon'));

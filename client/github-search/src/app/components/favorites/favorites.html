@@ -1,1 +1,13 @@
-<p>favorites works!</p>
+<div class="favorites">
+    <h2 class="title-section">Your Bookmarked Repositories</h2>
+    <div class="results">
+        @if(bookmarks$() && bookmarks$().length > 0){
+        @for (item of bookmarks$(); track item.id){
+        <app-result-card [card]="item" (favoriteEmit)="removeFavorite($event)">
+        </app-result-card>
+        }
+        } @else {
+        <p class="no-results">You have no bookmarked repositories yet.</p>
+        }
+    </div>
+</div>

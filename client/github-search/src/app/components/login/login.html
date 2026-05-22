@@ -31,6 +31,8 @@
             }
         </mat-form-field>
         <button mat-flat-button class="send-btn" color="primary" type="submit"
-            [disabled]="loginForm.invalid">Login</button>
+            [disabled]="loginForm.invalid || authService.authLoading$()">
+            {{ authService.authLoading$() ? 'Logging in...' : 'Login' }}
+        </button>
     </form>
 </div>
